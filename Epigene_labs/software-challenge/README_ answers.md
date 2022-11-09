@@ -96,7 +96,7 @@ Im main.py:
 ### Addition 4
 
 ````
-@app.get("/genesets/{slice_st}-{slice_end}", response_model=List[schemas.Geneset])
+@app.get("/genesets/slice/{slice_st}-{slice_end}", response_model=List[schemas.Geneset])
 '''Function that allows the user to choose the slice of data'''
 def read_all_genesets(slice_st: int, slice_end:int, db: Session = Depends(get_db)):
     genesets = crud.get_genesets(db, skip=slice_st, limit=slice_end)
@@ -139,7 +139,7 @@ In crud.py add:
 ````
 def get_gene_by_geneset_and_gene_titles(db: Session, set_name: str, gene_name: str):
     geneset = db.query(Geneset).filter(Geneset.title.like("%" + set_name)).first()    
-    gene = db.query(Gene).filter((Gene.geneset_id == geneset.id) & (Gene.name == gene_name)).all()
+    gene = db.query(Gene).filter((Gene.geneset_id == geneset.id) & (Gene.name.like("%" + gene_name +"%"))).all()
     return gene
 ````
 Improvement 2: A function that allows the user to return the name of a gene and its gene set based only on the name of the gene

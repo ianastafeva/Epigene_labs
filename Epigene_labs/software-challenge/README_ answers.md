@@ -91,7 +91,7 @@ Run `poetry run python populate.py` to populate the database and simulate the nu
 ###### Answering: 
 I suggest a function that allows the user to select a slice of data
 
-Im main.py: 
+In main.py: 
 
 ### Addition 4
 
@@ -102,6 +102,16 @@ def read_all_genesets(slice_st: int, slice_end:int, db: Session = Depends(get_db
     genesets = crud.get_genesets(db, skip=slice_st, limit=slice_end)
     return genesets
 ````
+
+In crud.py:
+
+### Addition 4
+````
+def get_genesets_slice(db: Session, skip: int = 0, limit: int = 100):
+
+    return db.query(Geneset).offset(skip).limit(limit-skip).all()
+````
+
 So users can choolse the slice of data which they want to use.
 
 Theoretical general suggestions for improving speed:

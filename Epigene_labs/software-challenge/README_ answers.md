@@ -155,7 +155,7 @@ def get_gene_by_geneset_and_gene_titles(db: Session, geneset_title: str, gene_na
     gene = db.query(Gene).filter((Gene.geneset_id == geneset.id) & (Gene.name.like("%" + gene_name +"%"))).all()
     return gene
 ````
-Improvement 2: A function that allows the user to return the name of a gene and its gene set based only on the name of the gene
+Improvement 2: A function that allows the user to return the name's gene and its genesets titles based on its name
 
 In main.py:
 

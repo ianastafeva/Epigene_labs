@@ -72,8 +72,6 @@ Make sure it works as expected.
 
 ###### Answering: 
 
-Part1:
-
 The designated python functions (read_match_genesets in main.py, get_geneset_by_title in crud.py) kept as they are because to answer Level 1 & 2 we made sure that the endpoint "/genesets/search/gene/{gene_name}" won't conflict with the endpoint of this search "/genesets/search/{pattern}" by adding the step "/gene/" to level 1 & 2 endpoint before the input argument "{gene_name}".
 
 As for ensuring the retrieval based on part of the geneset title or from an html string, the function get_geneset_by_title in crud.py is already written to handle partial genesets titles (patterns) through the use of the pattern option of the query ("%" + pattern + "%").  

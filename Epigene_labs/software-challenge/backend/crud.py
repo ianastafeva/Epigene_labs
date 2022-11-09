@@ -76,8 +76,8 @@ def get_gene_by_title(db: Session,  gene_name: str):
 # addition 2 
 
 def get_gene_by_geneset_and_gene_titles(db: Session, geneset_title: str, gene_name: str):
-    geneset = db.query(Geneset).filter(Geneset.title.like("%" + geneset_title)).first()    
-    gene = db.query(Gene).filter((Gene.geneset_id == geneset.id) & (Gene.name.like("%" + gene_name +"%"))).all()
+    geneset = db.query(Geneset).filter(Geneset.title.like("%" + geneset_title + "%")).first()    
+    gene = db.query(Gene).filter((Gene.geneset_id == geneset.id) & (Gene.name.like("%" + gene_name + "%"))).all()
     return gene
 
 # addition 3

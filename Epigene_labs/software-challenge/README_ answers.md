@@ -72,17 +72,12 @@ Make sure it works as expected.
 
 ###### Answering: 
 
-In main.py in addition nb 1, replace @app.get("/genesets/search/gene/gene_name" with @app.get("/genesets/search/gene/{gene_name}" - helps the user find the gene based on the gene name from the html string, so the function should look like:
+Part1:
 
-### Addition 1
+The designated python functions (read_match_genesets in main.py, get_geneset_by_title in crud.py) kept as they are because to answer Level 1 & 2 we made sure that the endpoint "/genesets/search/gene/{gene_name}" won't conflict with the endpoint of this search "/genesets/search/{pattern}" by adding the step "/gene/" to level 1 & 2 endpoint before the input argument "{gene_name}".
 
-````
-@app.get("/genesets/search/gene/{gene_name}", response_model=List[schemas.Gene])
-'''Function that allows the user to find a gene based on the name of the gene'''
-def read_match_gene( gene_name: str, db: Session = Depends(get_db)):
-    gene = crud.get_gene_by_title(db, gene_name)
-    return gene 
-````
+As for ensuring the retrieval based on part of the geneset title or from an html string, the function get_geneset_by_title in crud.py is already written to handle partial genesets titles (patterns) through the use of the pattern option of the query ("%" + pattern + "%").  
+
 Part 2:
 
 Now, we have thousands of users. 

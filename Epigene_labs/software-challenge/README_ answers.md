@@ -89,6 +89,9 @@ Now, we have thousands of users.
 Run `poetry run python populate.py` to populate the database and simulate the number of users. Let's check again the endpoint that allow a user to retrieves the full list of genesets. The output doesn't look good, and it's getting slower right ? Suggest a way to improve it.
 
 ###### Answering: 
+
+The output doesn't look good because the function that reads all the genesets in crud.py returns by default only a slice limited to the first 100 genesets in the database and its analogous in main.py is coded not to take inputs that overwrite this default
+
 I suggest a function that allows the user to select a slice of data
 
 In main.py: 
@@ -98,8 +101,8 @@ In main.py:
 ````
 @app.get("/genesets/slice/{slice_st}-{slice_end}", response_model=List[schemas.Geneset])
 '''Function that allows the user to choose the slice of data'''
-def read_all_genesets(slice_st: int, slice_end:int, db: Session = Depends(get_db)):
-    genesets = crud.get_genesets(db, skip=slice_st, limit=slice_end)
+def read_all_genesets_slice(slice_st: int, slice_end:int, db: Session = Depends(get_db)):
+    genesets = crud.get_genesets_slice(db, skip=slice_st, limit=slice_end)
     return genesets
 ````
 

@@ -29,19 +29,20 @@ In the main.py file I added:
 
 # addition nb 1
 '''Function that allows the user to find a gene based on the name of the gene'''
-
+````
 @app.get("/genesets/search/gene/gene_name", response_model=List[schemas.Gene])
 def read_match_gene( gene_name: str, db: Session = Depends(get_db)):
     gene = crud.get_gene_by_title(db, gene_name)
     return gene 
-
+````
 In crud.py:
 
 # addition 1 
+````
 def get_gene_by_title(db: Session,  gene_name: str):     
     gene = db.query(Gene).filter(Gene.name.like(gene_name)).all()
     return gene    
-
+````
 ### Level 2
 
 Sometimes, users don't know the specific name of a gene. They might not be able to retrieve correctly the gene they are looking for thanks to the previous API's update in Level 1. Update the API with a way to allow a user to search for genes.
@@ -51,10 +52,11 @@ Answering:
 In crud.py in the get_gene_by_title function, replace (gene_name) with ("%" + gene_name + "%") - this allows the user to search for a gene knowing only part of the gene name. Thus, the function should look like this:
 
 # addition 1 
+````
 def get_gene_by_title(db: Session,  gene_name: str):     
     gene = db.query(Gene).filter(Gene.name.like("%" + gene_name +"%")).all()
     return gene
-
+````
 
 ### Level 3
 
@@ -73,12 +75,12 @@ In main.py in addition nb 1, replace @app.get("/genesets/search/gene/gene_name" 
 
 # addition nb 1
 '''Function that allows the user to find a gene based on the name of the gene'''
-
+````
 @app.get("/genesets/search/gene/{gene_name}", response_model=List[schemas.Gene])
 def read_match_gene( gene_name: str, db: Session = Depends(get_db)):
     gene = crud.get_gene_by_title(db, gene_name)
     return gene 
-
+````
 Part 2:
 
 Now, we have thousands of users. 
@@ -90,12 +92,12 @@ Im main.py:
 
 # addition nb 4
 '''Function that allows the user to choose the slice of data'''
-
+````
 @app.get("/genesets/{slice_st}-{slice_end}", response_model=List[schemas.Geneset])
 def read_all_genesets(slice_st: int, slice_end:int, db: Session = Depends(get_db)):
     genesets = crud.get_genesets(db, skip=slice_st, limit=slice_end)
     return genesets
-
+````
 So users can choolse the slice of data which they want to use.
 
 Theoretical general suggestions for improving speed:
@@ -119,37 +121,37 @@ To do this in main.py:
 
 # addition nb 2
 '''Function that allows the user to find a gene based on the name of the gene set and the name of the gene'''
-
+````
 @app.get("/genesets/search/set/gene/{set_name}/{gene_name}", response_model=List[schemas.Gene])
 def read_match_gene(set_name: str, gene_name: str, db: Session = Depends(get_db)):
     gene = crud.get_gene_by_geneset_and_gene_titles(db, set_name, gene_name)
     return gene
-
+````
 In crud.py add:
 
 # addition 2 
-
+````
 def get_gene_by_geneset_and_gene_titles(db: Session, set_name: str, gene_name: str):
     geneset = db.query(Geneset).filter(Geneset.title.like("%" + set_name)).first()    
     gene = db.query(Gene).filter((Gene.geneset_id == geneset.id) & (Gene.name == gene_name)).all()
     return gene
-
+````
 Improvement 2: A function that allows the user to return the name of a gene and its gene set based only on the name of the gene
 
 In main.py:
 
 # addition nb 3   
 '''Function that allows the user return the name's of gene and it geneset based on the name of the gene'''
-
+````
 @app.get("/genesets/search/{gene_name}/genesets", response_model=List[schemas.GenesetTitle])
 def read_gene_sets(gene_name: str, db: Session = Depends(get_db)):
     genesets = crud.get_gene_set(db, gene_name)
     return genesets
-
+````
 In crud.py:
 
 # addition 3
-
+````
 def get_gene_set(db: Session, gene_name: str):
     genes = db.query(Gene).filter(Gene.name.like("%" + gene_name + "%")).all()
     set_names = []
@@ -159,11 +161,11 @@ def get_gene_set(db: Session, gene_name: str):
     
     output = [{'gene': gene_name, 'genesets': set_names}]
     return output
-    
+````    
 In schemas:
 
 # addition nb 3
-
+````
 class GenesetTitle(BaseModel):
     gene: str
     genesets: List[str] = []
@@ -171,7 +173,7 @@ class GenesetTitle(BaseModel):
     class Config:
         orm_mode = True
         
-        
+````        
 Theoretical Improvement:
     
     

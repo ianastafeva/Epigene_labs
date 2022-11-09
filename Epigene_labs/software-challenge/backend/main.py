@@ -53,7 +53,7 @@ def read_match_gene( gene_name: str, db: Session = Depends(get_db)):
     return gene   
 
 # addition nb 2
-'''Function that allows the user to find a gene based on the title of a gene set and its name'''
+'''Function that allows the user to find a gene based on a title of a geneset and its name'''
 
 @app.get("/genesets/search/geneset/{geneset_title}/gene/{gene_name}", response_model=List[schemas.Gene])
 def read_match_gene(geneset_title: str, gene_name: str, db: Session = Depends(get_db)):
@@ -62,7 +62,7 @@ def read_match_gene(geneset_title: str, gene_name: str, db: Session = Depends(ge
 
 
 # addition nb 3   
-'''Function that allows the user to return the name's gene and its genesets title based on its name'''
+'''Function that allows the user to return the name's gene and its genesets titles based on its name'''
 
 @app.get("/genesets/search/{gene_name}/genesets", response_model=List[schemas.GenesetTitle])
 def read_gene_sets(gene_name: str, db: Session = Depends(get_db)):

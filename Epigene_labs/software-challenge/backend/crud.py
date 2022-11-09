@@ -32,7 +32,7 @@ def get_geneset_by_title(db: Session, pattern: str):
 
 def get_genesets(db: Session, skip: int = 0, limit: int = 100):
 
-    return db.query(Geneset).offset(skip).limit(limit).all()
+    return db.query(Geneset).offset(skip).limit(limit-skip).all()
 
 
 def create_geneset_with_genes(db: Session, geneset: GenesetCreate):

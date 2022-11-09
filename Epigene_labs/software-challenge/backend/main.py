@@ -72,7 +72,7 @@ def read_gene_sets(gene_name: str, db: Session = Depends(get_db)):
 # addition nb 4
 '''Function that allows the user to choose the slice of data'''
 
-@app.get("/genesets/{slice_st}-{slice_end}", response_model=List[schemas.Geneset])
-def read_all_genesets(slice_st: int, slice_end:int, db: Session = Depends(get_db)):
-    genesets = crud.get_genesets(db, skip=slice_st, limit=slice_end)
+@app.get("/genesets/slice/{slice_st}-{slice_end}", response_model=List[schemas.Geneset])
+def read_all_genesets_slice(slice_st: int, slice_end:int, db: Session = Depends(get_db)):
+    genesets = crud.get_genesets_slice(db, skip=slice_st, limit=slice_end)
     return genesets

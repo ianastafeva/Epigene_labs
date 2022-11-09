@@ -45,7 +45,7 @@ def create_geneset(geneset: schemas.GenesetCreate, db: Session = Depends(get_db)
     return db_geneset.id
 
 # addition nb 1
-'''Function that allows the user to find a gene based on the name of the gene'''
+'''Function that allows the user to find a gene based on its name'''
 
 @app.get("/genesets/search/gene/{gene_name}", response_model=List[schemas.Gene])
 def read_match_gene( gene_name: str, db: Session = Depends(get_db)):
@@ -53,7 +53,7 @@ def read_match_gene( gene_name: str, db: Session = Depends(get_db)):
     return gene   
 
 # addition nb 2
-'''Function that allows the user to find a gene based on the name of the gene set and the name of the gene'''
+'''Function that allows the user to find a gene based on the title of a gene set and its name'''
 
 @app.get("/genesets/search/set/gene/{set_name}/{gene_name}", response_model=List[schemas.Gene])
 def read_match_gene(set_name: str, gene_name: str, db: Session = Depends(get_db)):
@@ -62,7 +62,7 @@ def read_match_gene(set_name: str, gene_name: str, db: Session = Depends(get_db)
 
 
 # addition nb 3   
-'''Function that allows the user return the name's of gene and it geneset based on the name of the gene'''
+'''Function that allows the user return the name's gene and its genesets based on its name'''
 
 @app.get("/genesets/search/{gene_name}/genesets", response_model=List[schemas.GenesetTitle])
 def read_gene_sets(gene_name: str, db: Session = Depends(get_db)):
@@ -70,7 +70,7 @@ def read_gene_sets(gene_name: str, db: Session = Depends(get_db)):
     return genesets
 
 # addition nb 4
-'''Function that allows the user to choose the slice of data'''
+'''Function that allows the user to choose a slice of data'''
 
 @app.get("/genesets/slice/{slice_st}-{slice_end}", response_model=List[schemas.Geneset])
 def read_all_genesets_slice(slice_st: int, slice_end:int, db: Session = Depends(get_db)):

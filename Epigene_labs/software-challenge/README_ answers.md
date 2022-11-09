@@ -127,18 +127,18 @@ To do this in main.py:
 ### Addition 2
 
 ````
-@app.get("/genesets/search/set/gene/{set_name}/{gene_name}", response_model=List[schemas.Gene])
+@app.get("/genesets/search/geneset/{geneset_title}/gene/{gene_name}", response_model=List[schemas.Gene])
 '''Function that allows the user to find a gene based on the name of the gene set and the name of the gene'''
-def read_match_gene(set_name: str, gene_name: str, db: Session = Depends(get_db)):
-    gene = crud.get_gene_by_geneset_and_gene_titles(db, set_name, gene_name)
+def read_match_gene(geneset_title: str, gene_name: str, db: Session = Depends(get_db)):
+    gene = crud.get_gene_by_geneset_and_gene_titles(db, geneset_title, gene_name)
     return gene
 ````
 In crud.py add:
 
 ### Addition 2 
 ````
-def get_gene_by_geneset_and_gene_titles(db: Session, set_name: str, gene_name: str):
-    geneset = db.query(Geneset).filter(Geneset.title.like("%" + set_name)).first()    
+def get_gene_by_geneset_and_gene_titles(db: Session, geneset_title: str, gene_name: str):
+    geneset = db.query(Geneset).filter(Geneset.title.like("%" + geneset_title + "%")).first()    
     gene = db.query(Gene).filter((Gene.geneset_id == geneset.id) & (Gene.name.like("%" + gene_name +"%"))).all()
     return gene
 ````

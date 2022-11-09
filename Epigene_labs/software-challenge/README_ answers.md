@@ -115,7 +115,7 @@ def get_genesets_slice(db: Session, skip: int = 0, limit: int = 100):
     return db.query(Geneset).offset(skip).limit(limit-skip).all()
 ````
 
-So users can choolse the slice of data which they want to use.
+So users can choose the slice of data which they want to use.
 
 Theoretical general suggestions for improving speed:
 

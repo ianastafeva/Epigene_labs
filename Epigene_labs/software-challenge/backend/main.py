@@ -55,9 +55,9 @@ def read_match_gene( gene_name: str, db: Session = Depends(get_db)):
 # addition nb 2
 '''Function that allows the user to find a gene based on the title of a gene set and its name'''
 
-@app.get("/genesets/search/set/gene/{set_name}/{gene_name}", response_model=List[schemas.Gene])
-def read_match_gene(set_name: str, gene_name: str, db: Session = Depends(get_db)):
-    gene = crud.get_gene_by_geneset_and_gene_titles(db, set_name, gene_name)
+@app.get("/genesets/search/geneset/{geneset_title}/gene/{gene_name}", response_model=List[schemas.Gene])
+def read_match_gene(geneset_title: str, gene_name: str, db: Session = Depends(get_db)):
+    gene = crud.get_gene_by_geneset_and_gene_titles(db, geneset_title, gene_name)
     return gene
 
 

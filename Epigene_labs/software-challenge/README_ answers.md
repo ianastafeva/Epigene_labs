@@ -8,7 +8,7 @@
 
 Make sure you can query the API. We use Postman at Epigene Labs, but feel free to use the tool you want. Create a couple of Genesets to get more familiar with it. 
 
-Answering:
+###### Answering: /
 I have created several gene sets in /genesets
 
 Example: 
@@ -22,7 +22,7 @@ Check gensets: http://localhost:8000/genesets
 
 Now as a user, let's say you want to retrieve a gene based on its name, and know in which genesets it is present.  Update the API so that we can deliver that new feature.
 
-Answering:
+###### Answering: /
 I created a function that allows the user to find a gene based on the name of the gene. To do this:
 
 In the main.py file I added:
@@ -48,7 +48,7 @@ def get_gene_by_title(db: Session,  gene_name: str):
 
 Sometimes, users don't know the specific name of a gene. They might not be able to retrieve correctly the gene they are looking for thanks to the previous API's update in Level 1. Update the API with a way to allow a user to search for genes.
 
-Answering:
+###### Answering:/
 
 In crud.py in the get_gene_by_title function, replace (gene_name) with ("%" + gene_name + "%") - this allows the user to search for a gene knowing only part of the gene name. Thus, the function should look like this:
 
@@ -70,7 +70,7 @@ We like to be able to search Geneset by title.Let's say you have a Geneset with 
 ````
 Make sure it works as expected.
 
-Answering:
+###### Answering: /
 
 In main.py in addition nb 1, replace @app.get("/genesets/search/gene/gene_name" with @app.get("/genesets/search/gene/{gene_name}" - helps the user find the gene based on the gene name from the html string, so the function should look like:
 
@@ -88,7 +88,8 @@ Part 2:
 Now, we have thousands of users. 
 Run `poetry run python populate.py` to populate the database and simulate the number of users. Let's check again the endpoint that allow a user to retrieves the full list of genesets. The output doesn't look good, and it's getting slower right ? Suggest a way to improve it.
 
-Answering: I suggest a function that allows the user to select a slice of data
+###### Answering: /
+I suggest a function that allows the user to select a slice of data
 
 Im main.py: 
 
@@ -117,7 +118,8 @@ Theoretical general suggestions for improving speed:
 Let's be real, this API isn't best in class. How do you think we could improve it ?
 The idea here is not to implement any solution. Just think of some improvements we could discuss during the interview.
 
-Answers:
+###### Answers: /
+
 Improvement 1: A function that allows the user to find a gene based on the name of the gene set and the name of the gene
 
 To do this in main.py:

@@ -18,7 +18,7 @@ Example:
 
 Check gensets: http://localhost:8000/genesets
 
-### Level 1
+## Level 1
 
 Now as a user, let's say you want to retrieve a gene based on its name, and know in which genesets it is present.  Update the API so that we can deliver that new feature.
 
@@ -27,23 +27,24 @@ I created a function that allows the user to find a gene based on the name of th
 
 In the main.py file I added:
 
-# addition nb 1
-'''Function that allows the user to find a gene based on the name of the gene'''
+### Addition 1
+
 ````
 @app.get("/genesets/search/gene/gene_name", response_model=List[schemas.Gene])
+'''Function that allows the user to find a gene based on the name of the gene'''
 def read_match_gene( gene_name: str, db: Session = Depends(get_db)):
     gene = crud.get_gene_by_title(db, gene_name)
     return gene 
 ````
 In crud.py:
 
-# addition 1 
+### Addition 1 
 ````
 def get_gene_by_title(db: Session,  gene_name: str):     
     gene = db.query(Gene).filter(Gene.name.like(gene_name)).all()
     return gene    
 ````
-### Level 2
+## Level 2
 
 Sometimes, users don't know the specific name of a gene. They might not be able to retrieve correctly the gene they are looking for thanks to the previous API's update in Level 1. Update the API with a way to allow a user to search for genes.
 
@@ -51,14 +52,14 @@ Answering:
 
 In crud.py in the get_gene_by_title function, replace (gene_name) with ("%" + gene_name + "%") - this allows the user to search for a gene knowing only part of the gene name. Thus, the function should look like this:
 
-# addition 1 
+### Addition 1 
 ````
 def get_gene_by_title(db: Session,  gene_name: str):     
     gene = db.query(Gene).filter(Gene.name.like("%" + gene_name +"%")).all()
     return gene
 ````
 
-### Level 3
+## Level 3
 
 Part 1:
 
@@ -73,10 +74,11 @@ Answering:
 
 In main.py in addition nb 1, replace @app.get("/genesets/search/gene/gene_name" with @app.get("/genesets/search/gene/{gene_name}" - helps the user find the gene based on the gene name from the html string, so the function should look like:
 
-# addition nb 1
-'''Function that allows the user to find a gene based on the name of the gene'''
+### Addition 1
+
 ````
 @app.get("/genesets/search/gene/{gene_name}", response_model=List[schemas.Gene])
+'''Function that allows the user to find a gene based on the name of the gene'''
 def read_match_gene( gene_name: str, db: Session = Depends(get_db)):
     gene = crud.get_gene_by_title(db, gene_name)
     return gene 
@@ -90,10 +92,11 @@ Answering: I suggest a function that allows the user to select a slice of data
 
 Im main.py: 
 
-# addition nb 4
-'''Function that allows the user to choose the slice of data'''
+### Addition 4
+
 ````
 @app.get("/genesets/{slice_st}-{slice_end}", response_model=List[schemas.Geneset])
+'''Function that allows the user to choose the slice of data'''
 def read_all_genesets(slice_st: int, slice_end:int, db: Session = Depends(get_db)):
     genesets = crud.get_genesets(db, skip=slice_st, limit=slice_end)
     return genesets
@@ -109,7 +112,7 @@ Theoretical general suggestions for improving speed:
 3. Use the multiprocessing module, dividing the query up and sending it to multiple parallel processes, then concatenating the results. multiprocessing.Pool(processes=10)
 
 
-### Level 4 - Bonus
+## Level 4 - Bonus
 
 Let's be real, this API isn't best in class. How do you think we could improve it ?
 The idea here is not to implement any solution. Just think of some improvements we could discuss during the interview.
@@ -119,17 +122,18 @@ Improvement 1: A function that allows the user to find a gene based on the name 
 
 To do this in main.py:
 
-# addition nb 2
-'''Function that allows the user to find a gene based on the name of the gene set and the name of the gene'''
+### Addition 2
+
 ````
 @app.get("/genesets/search/set/gene/{set_name}/{gene_name}", response_model=List[schemas.Gene])
+'''Function that allows the user to find a gene based on the name of the gene set and the name of the gene'''
 def read_match_gene(set_name: str, gene_name: str, db: Session = Depends(get_db)):
     gene = crud.get_gene_by_geneset_and_gene_titles(db, set_name, gene_name)
     return gene
 ````
 In crud.py add:
 
-# addition 2 
+### Addition 2 
 ````
 def get_gene_by_geneset_and_gene_titles(db: Session, set_name: str, gene_name: str):
     geneset = db.query(Geneset).filter(Geneset.title.like("%" + set_name)).first()    
@@ -140,17 +144,18 @@ Improvement 2: A function that allows the user to return the name of a gene and 
 
 In main.py:
 
-# addition nb 3   
-'''Function that allows the user return the name's of gene and it geneset based on the name of the gene'''
+### Addition 3   
+
 ````
 @app.get("/genesets/search/{gene_name}/genesets", response_model=List[schemas.GenesetTitle])
+'''Function that allows the user return the name's of gene and it geneset based on the name of the gene'''
 def read_gene_sets(gene_name: str, db: Session = Depends(get_db)):
     genesets = crud.get_gene_set(db, gene_name)
     return genesets
 ````
 In crud.py:
 
-# addition 3
+### Addition 3
 ````
 def get_gene_set(db: Session, gene_name: str):
     genes = db.query(Gene).filter(Gene.name.like("%" + gene_name + "%")).all()
@@ -164,7 +169,7 @@ def get_gene_set(db: Session, gene_name: str):
 ````    
 In schemas:
 
-# addition nb 3
+### Addition 3
 ````
 class GenesetTitle(BaseModel):
     gene: str

@@ -197,6 +197,6 @@ class GenesetTitle(BaseModel):
 Theoretical Improvement:
 
 1. Implement security options (user ID, email, password)
-2. Implement Cookies features 
+2. Implement Cookies features to keep track of users activities 
     
 

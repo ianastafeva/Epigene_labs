@@ -133,7 +133,7 @@ The idea here is not to implement any solution. Just think of some improvements 
 
 ###### Answers: 
 
-Improvement 1: A function that allows the user to find a gene based on the name of the gene set and the name of the gene
+Improvement 1: A function that allows the user to find a gene based on a title of a geneset and its name
 
 To do this in main.py:
 

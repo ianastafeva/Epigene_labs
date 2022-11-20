@@ -9,6 +9,8 @@ python = "^3.8"
 fastapi = "^0.65.2"
 uvicorn = "^0.14.0"
 SQLAlchemy = "^1.4.18"
+fuzzywuzzy = "^0.18.0"
+python-Levenshtein = "^0.20.8"
 
 [tool.poetry.dev-dependencies]
 

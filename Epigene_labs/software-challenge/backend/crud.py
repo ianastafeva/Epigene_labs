@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from typing import List
+from fuzzywuzzy import fuzz
 
 
 from models import Gene, Geneset
@@ -97,3 +98,30 @@ def get_gene_set(db: Session, gene_name: str):
 def get_genesets_slice(db: Session, skip: int = 0, limit: int = 100):
 
     return db.query(Geneset).offset(skip).limit(limit-skip).all()
+
+# addition 5
+
+def get_similar_gene(db: Session, gene_name: str, similarty_threshold: float):
+    genes_list = db.query(Gene).all()
+    
+    selected_genes = []
+    for gene in genes_list:
+        sim_score = fuzz.ratio(gene.name, gene_name) / 100
+        if sim_score >= similarty_threshold:
+            selected_genes.append(gene)
+    
+    return selected_genes
+
+
+# addition 6
+
+def get_similar_genesets(db: Session, geneset_title: str, similarty_threshold: float):
+    genesets_list = db.query(Geneset).all()
+    
+    selected_genesets = []
+    for set in genesets_list:
+        sim_score = fuzz.ratio(set.title, geneset_title) / 100
+        if sim_score >= similarty_threshold:
+            selected_genesets.append(set)
+    
+    return selected_genesets
